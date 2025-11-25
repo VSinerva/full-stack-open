@@ -5,7 +5,17 @@ const Title = ({text}) => <h1>{text}</h1>
 const Button = ({value, setValue, text}) =>
   <button onClick={() => setValue(value + 1)}>{text}</button>
 
-const StatisticLine = ({text, value}) => <p>{text} {value}</p>
+const StatisticLine = (props) => {
+  const text = props.text
+  const value = props.value
+  const suffix = props.suffix || ""
+
+  return <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+    <td>{suffix}</td>
+  </tr>
+}
 
 const Statistics = ({good, neutral, bad}) => {
   const total = good + neutral + bad
@@ -23,12 +33,16 @@ const Statistics = ({good, neutral, bad}) => {
   return (
     <>
       <Title text="statistics"/>
-      <StatisticLine text="good" value={good} />
-      <StatisticLine text="neutral" value={neutral} />
-      <StatisticLine text="bad" value={bad} />
-      <StatisticLine text="all" value={total} />
-      <StatisticLine text="average" value={average } />
-      <StatisticLine text="positive " value={positive } />
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={total} />
+          <StatisticLine text="average" value={average } />
+          <StatisticLine text="positive " value={positive} suffix="%" />
+        </tbody>
+      </table>
     </>
   )
 }
