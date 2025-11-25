@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const Title = ({text}) => <h1>{text}</h1>
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -22,13 +24,19 @@ const App = () => {
   }
 
   const nextAnecdote = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+  const indexMostVoted = votes.indexOf(Math.max(...votes))
 
   return (
     <div>
+      <Title text="Anecdote of the day"/>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={vote}>vote</button>
       <button onClick={nextAnecdote}>next anecdote</button>
+
+      <Title text="Anecdote with most votes"/>
+      <p>{anecdotes[indexMostVoted]}</p>
+      <p>has {votes[indexMostVoted]} votes</p>
     </div>
   )
 }
