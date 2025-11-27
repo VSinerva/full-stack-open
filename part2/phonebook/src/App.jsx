@@ -39,6 +39,10 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        .catch(() => {
+            showError(`Information of ${newName} has already been removed from the server`)
+            setPersons(persons.filter(person => person.name !== newName))
+        })
       }
     }
     else {
@@ -54,10 +58,13 @@ const App = () => {
 
   const deleteName = person => {
     if (confirm(`Delete ${person.name}?`))
-      personService.remove(person.id)
-        .then(returnedPerson => {
+      personService.remove(person.id).then(returnedPerson => {
           setPersons(persons.filter(person => person.id !== returnedPerson.id))
           showMessage(`Deleted ${returnedPerson.name}`)
+        })
+        .catch(() => {
+          showError(`Information of ${person.name} has already been removed from the server`)
+          setPersons(persons.filter(person => person.name !== newName))
         })
   }
 
