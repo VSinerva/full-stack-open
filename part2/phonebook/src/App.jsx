@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import personService from './services/persons'
 
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
 import PersonList from './components/PersonList'
 
@@ -11,8 +12,20 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchName, setSearchName] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => { personService.getAll().then(initialPersons => setPersons(initialPersons)) }, [])
+
+  const showMessage = message => {
+    setNotificationMessage(message)
+    setTimeout(() => {setNotificationMessage(null)}, 5000)
+  }
+
+  const showError = error => {
+    setErrorMessage(error)
+    setTimeout(() => {setErrorMessage(null)}, 5000)
+  }
 
   const addName = event => {
     event.preventDefault()
@@ -22,6 +35,7 @@ const App = () => {
         const changedPerson = {...person, number: newNumber}
         personService.update(changedPerson).then(returnedPerson => {
           setPersons(persons.map(p => p.id === returnedPerson.id ? returnedPerson : p))
+          showMessage(`Updated number for ${newName}`)
           setNewName('')
           setNewNumber('')
         })
@@ -31,6 +45,7 @@ const App = () => {
       const personObject = {name: newName, number: newNumber}
       personService.create(personObject).then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        showMessage(`Added ${newName}`)
         setNewName('')
         setNewNumber('')
       })
@@ -40,7 +55,10 @@ const App = () => {
   const deleteName = person => {
     if (confirm(`Delete ${person.name}?`))
       personService.remove(person.id)
-        .then(returnedPerson => setPersons(persons.filter(person => person.id !== returnedPerson.id)))
+        .then(returnedPerson => {
+          setPersons(persons.filter(person => person.id !== returnedPerson.id))
+          showMessage(`Deleted ${returnedPerson.name}`)
+        })
   }
 
   const handleSearchChange = event => setSearchName(event.target.value)
@@ -54,6 +72,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
+      <Notification message={errorMessage} isError={true} />
       <Filter value={searchName} onChange={handleSearchChange} />
 
       <h3>Add a New Number</h3>
