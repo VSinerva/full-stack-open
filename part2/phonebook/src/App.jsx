@@ -29,6 +29,13 @@ const App = () => {
     }
   }
 
+  const deleteName = person => {
+    if (confirm(`Delete ${person.name}?`))
+      personService.remove(person.id)
+        .then(returnedPerson => setPersons(persons.filter(person => person.id !== returnedPerson.id)))
+    else return null
+  }
+
   const handleSearchChange = event => setSearchName(event.target.value)
   const handleNameChange = event => setNewName(event.target.value)
   const handleNumberChange = event => setNewNumber(event.target.value)
@@ -46,7 +53,7 @@ const App = () => {
       <PersonForm onSubmit={addName} nameValue={newName} nameOnChange={handleNameChange} numberValue={newNumber} numberOnChange={handleNumberChange} />
 
       <h3>Numbers</h3>
-      <PersonList persons={personsToShow} />
+      <PersonList persons={personsToShow} deleteHandler={deleteName} />
     </div>
   )
 }
