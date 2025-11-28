@@ -10,6 +10,7 @@
       # Utilized by `nix develop`
       devShell.${system} = pkgs.mkShell {
         buildInputs = with pkgs; [
+          bruno
           firefox-devedition
           nodejs_22
           openssl
