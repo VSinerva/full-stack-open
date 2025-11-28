@@ -3,6 +3,7 @@ const morgan = require('morgan')
 
 const app = express()
 
+app.use(express.static('front'))
 app.use(express.json())
 
 morgan.token('body', (req, res) => JSON.stringify(req.body) )
@@ -17,20 +18,20 @@ let persons = [
 		"number": "040-123456"
 	},
 	{ 
-      "id": "2",
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": "3",
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": "4",
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
+		"id": "2",
+		"name": "Ada Lovelace", 
+		"number": "39-44-5323523"
+	},
+	{ 
+		"id": "3",
+		"name": "Dan Abramov", 
+		"number": "12-43-234345"
+	},
+	{ 
+		"id": "4",
+		"name": "Mary Poppendieck", 
+		"number": "39-23-6423122"
+	}
 ]
 
 app.get('/', (request, response) => {
@@ -90,7 +91,7 @@ app.delete('/api/persons/:id', (request, response) => {
 	response.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
 })
