@@ -39,9 +39,14 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-        .catch(() => {
-            showError(`Information of ${newName} has already been removed from the server`)
+        .catch(error => {
+          if (error.response.status === 404) {
             setPersons(persons.filter(person => person.name !== newName))
+            showError(`Information of ${person.name} has already been removed from the server`)
+          }
+          else {
+            showError(error.response.data.error)
+          }
         })
       }
     }
@@ -53,6 +58,7 @@ const App = () => {
         setNewNumber('')
         showMessage(`Added ${newName}`)
       })
+      .catch(error => showError(error.response.data.error))
     }
   }
 
