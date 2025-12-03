@@ -122,6 +122,38 @@ describe('blog API with existing blogs', () => {
 		})
 	})
 
+	describe.only('updating a blog', () => {
+		test('with valid data works', async () => {
+			const blogsAtStart = await helper.blogsInDb()
+			const blogToUpdate = blogsAtStart[0]
+
+			blogToUpdate.title = "Updated Title"
+			blogToUpdate.author = "Updated Author"
+			blogToUpdate.url = "http://updated.url"
+			blogToUpdate.likes += 10
+
+			await api
+				.put(`/api/blogs/${blogToUpdate.id}`)
+				.send(blogToUpdate)
+				.expect(200)
+
+			const blogsAtEnd = await helper.blogsInDb()
+			assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+			const blogInDb = blogsAtEnd.find(b => b.id === blogToUpdate.id)
+			assert.deepStrictEqual(blogInDb, blogToUpdate)
+		})
+
+		test('with a missing id causes a 404 error', async () => {
+			const missingId = await helper.nonExistingId()
+			const newBlog = {id: missingId, ...helper.newBlog()}
+
+			await api
+				.put(`/api/blogs/${missingId}`)
+				.expect(404)
+		})
+	})
+
 	after(async () => {
 		await mongoose.connection.close()
 	})
