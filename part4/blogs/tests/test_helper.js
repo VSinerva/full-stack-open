@@ -1,10 +1,12 @@
 const Blog = require('../models/blog')
 
-const newBlog = {
-	title: "Blog Title",
-	author: "Blog Author",
-	url: "http://localhost",
-	likes: 100,
+const newBlog = () => {
+	return {
+		title: "Blog Title",
+		author: "Blog Author",
+		url: "http://localhost",
+		likes: 100,
+	}
 }
 
 const listWithOneBlog = [
@@ -56,11 +58,11 @@ const initialBlogs = [
 ]
 
 const nonExistingId = async () => {
-	const blog = new Blog({ title: 'willremovethissoon' })
+	const blog = new Blog(newBlog())
 	await blog.save()
 	await blog.deleteOne()
 
-	return blog._id.toString()
+	return blog.id.toString()
 }
 
 const blogsInDb = async () => {
