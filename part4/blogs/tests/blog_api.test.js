@@ -33,6 +33,28 @@ test('blog unique key is "id" ', async () => {
 	assert(!blogProperties.includes('_id'))
 })
 
+test('a valid blog can be added ', async () => {
+	const newBlog = {
+		title: "Blog Title",
+		author: "Blog Author",
+		url: "http://localhost",
+		likes: 100,
+	}
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(201)
+		.expect('Content-Type', /application\/json/)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
+
+	let blogInDb = blogsAtEnd.find(b => b.title === newBlog.title)
+	delete blogInDb.id // This gets dynamically added by MongoDB, so can't be compared
+	assert.deepStrictEqual(blogInDb, newBlog)
+})
+
 after(async () => {
 	await mongoose.connection.close()
 })
