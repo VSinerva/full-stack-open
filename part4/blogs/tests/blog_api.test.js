@@ -22,7 +22,7 @@ test('all blogs are returned as json', async () => {
 	assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
-test('blog unique key is "id" ', async () => {
+test('blog unique key is "id"', async () => {
 	const response = await api
 		.get('/api/blogs')
 		.expect(200)
@@ -33,7 +33,7 @@ test('blog unique key is "id" ', async () => {
 	assert(!blogProperties.includes('_id'))
 })
 
-test('a valid blog can be added ', async () => {
+test('a valid blog can be added', async () => {
 	const newBlog = {
 		title: "Blog Title",
 		author: "Blog Author",
@@ -53,6 +53,24 @@ test('a valid blog can be added ', async () => {
 	let blogInDb = blogsAtEnd.find(b => b.title === newBlog.title)
 	delete blogInDb.id // This gets dynamically added by MongoDB, so can't be compared
 	assert.deepStrictEqual(blogInDb, newBlog)
+})
+
+test('missing "likes" default to 0', async () => {
+	const newBlog = {
+		title: "Blog Title",
+		author: "Blog Author",
+		url: "http://localhost",
+	}
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(201)
+		.expect('Content-Type', /application\/json/)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	let blogInDb = blogsAtEnd.find(b => b.title === newBlog.title)
+	assert.strictEqual(blogInDb.likes, 0)
 })
 
 after(async () => {
