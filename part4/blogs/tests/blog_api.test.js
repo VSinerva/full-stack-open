@@ -34,12 +34,7 @@ test('blog unique key is "id"', async () => {
 })
 
 test('a valid blog can be added', async () => {
-	const newBlog = {
-		title: "Blog Title",
-		author: "Blog Author",
-		url: "http://localhost",
-		likes: 100,
-	}
+	let newBlog = helper.newBlog
 
 	await api
 		.post('/api/blogs')
@@ -56,11 +51,8 @@ test('a valid blog can be added', async () => {
 })
 
 test('missing "likes" default to 0', async () => {
-	const newBlog = {
-		title: "Blog Title",
-		author: "Blog Author",
-		url: "http://localhost",
-	}
+	let newBlog = helper.newBlog
+	delete newBlog.likes
 
 	await api
 		.post('/api/blogs')
@@ -71,6 +63,32 @@ test('missing "likes" default to 0', async () => {
 	const blogsAtEnd = await helper.blogsInDb()
 	let blogInDb = blogsAtEnd.find(b => b.title === newBlog.title)
 	assert.strictEqual(blogInDb.likes, 0)
+})
+
+test('missing "title" returns a 400 error', async () => {
+	let newBlog = helper.newBlog
+	delete newBlog.title
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(400)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+})
+
+test('missing "url" returns a 400 error', async () => {
+	let newBlog = helper.newBlog
+	delete newBlog.url
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(400)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
 })
 
 after(async () => {

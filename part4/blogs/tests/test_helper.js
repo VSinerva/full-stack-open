@@ -1,5 +1,12 @@
 const Blog = require('../models/blog')
 
+const newBlog = {
+	title: "Blog Title",
+	author: "Blog Author",
+	url: "http://localhost",
+	likes: 100,
+}
+
 const listWithOneBlog = [
 	{
 		title: 'Go To Statement Considered Harmful',
@@ -62,6 +69,7 @@ const blogsInDb = async () => {
 }
 
 module.exports = {
+	newBlog,
 	listWithOneBlog,
 	initialBlogs,
 	nonExistingId,
