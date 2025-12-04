@@ -5,91 +5,91 @@ const helper = require('./test_helper')
 
 
 test('dummy returns one', () => {
-	const result = listHelper.dummy([])
-	assert.strictEqual(result, 1)
+  const result = listHelper.dummy([])
+  assert.strictEqual(result, 1)
 })
 
 describe('total likes', () => {
-	test('of an empty list equals 0', () => {
-		const result = listHelper.totalLikes([])
-		assert.strictEqual(result, 0)
-	})
+  test('of an empty list equals 0', () => {
+    const result = listHelper.totalLikes([])
+    assert.strictEqual(result, 0)
+  })
 
-	test('of a single blog list equals the likes of that', () => {
-		const result = listHelper.totalLikes(helper.listWithOneBlog)
-		assert.strictEqual(result, 5)
-	})
+  test('of a single blog list equals the likes of that', () => {
+    const result = listHelper.totalLikes(helper.listWithOneBlog)
+    assert.strictEqual(result, 5)
+  })
 
 
-	test('of multiple blogs equals the sum of likes', () => {
-		const result = listHelper.totalLikes(helper.initialBlogs)
-		assert.strictEqual(result, 36)
-	})
+  test('of multiple blogs equals the sum of likes', () => {
+    const result = listHelper.totalLikes(helper.initialBlogs)
+    assert.strictEqual(result, 36)
+  })
 })
 
 describe('favourite blog', () => {
-	test('in an empty list is undefined', () => {
-		const result = listHelper.favouriteBlog([])
-		assert.deepStrictEqual(result, undefined)
-	})
+  test('in an empty list is undefined', () => {
+    const result = listHelper.favouriteBlog([])
+    assert.deepStrictEqual(result, undefined)
+  })
 
-	test('in a single blog list equals the blog', () => {
-		const result = listHelper.favouriteBlog(helper.listWithOneBlog)
-		assert.deepStrictEqual(result, helper.listWithOneBlog[0])
-	})
+  test('in a single blog list equals the blog', () => {
+    const result = listHelper.favouriteBlog(helper.listWithOneBlog)
+    assert.deepStrictEqual(result, helper.listWithOneBlog[0])
+  })
 
-	test('of multiple blogs equals the one with most likes', () => {
-		const result = listHelper.favouriteBlog(helper.initialBlogs)
-		assert.deepStrictEqual(result, helper.initialBlogs[2])
-	})
+  test('of multiple blogs equals the one with most likes', () => {
+    const result = listHelper.favouriteBlog(helper.initialBlogs)
+    assert.deepStrictEqual(result, helper.initialBlogs[2])
+  })
 })
 
 describe('most blogs', () => {
-	test('in an empty list is undefined', () => {
-		const result = listHelper.mostBlogs([])
-		assert.deepStrictEqual(result, undefined)
-	})
+  test('in an empty list is undefined', () => {
+    const result = listHelper.mostBlogs([])
+    assert.deepStrictEqual(result, undefined)
+  })
 
-	test('in a single blog list equals the author of that blog', () => {
-		const result = listHelper.mostBlogs(helper.listWithOneBlog)
-		const correct = {
-			author: 'Edsger W. Dijkstra',
-			blogs: 1
-		}
-		assert.deepStrictEqual(result, correct)
-	})
+  test('in a single blog list equals the author of that blog', () => {
+    const result = listHelper.mostBlogs(helper.listWithOneBlog)
+    const correct = {
+      author: 'Edsger W. Dijkstra',
+      blogs: 1
+    }
+    assert.deepStrictEqual(result, correct)
+  })
 
-	test('of multiple blogs equals the one with most blogs', () => {
-		const result = listHelper.mostBlogs(helper.initialBlogs)
-		const correct = {
-			author: "Robert C. Martin",
-			blogs: 3
-		}
-		assert.deepStrictEqual(result, correct)
-	})
+  test('of multiple blogs equals the one with most blogs', () => {
+    const result = listHelper.mostBlogs(helper.initialBlogs)
+    const correct = {
+      author: 'Robert C. Martin',
+      blogs: 3
+    }
+    assert.deepStrictEqual(result, correct)
+  })
 })
 
 describe('most likes', () => {
-	test('in an empty list is undefined', () => {
-		const result = listHelper.mostLikes([])
-		assert.deepStrictEqual(result, undefined)
-	})
+  test('in an empty list is undefined', () => {
+    const result = listHelper.mostLikes([])
+    assert.deepStrictEqual(result, undefined)
+  })
 
-	test('in a single blog list equals the author of that blog', () => {
-		const result = listHelper.mostLikes(helper.listWithOneBlog)
-		const correct = {
-			author: 'Edsger W. Dijkstra',
-			likes: 5
-		}
-		assert.deepStrictEqual(result, correct)
-	})
+  test('in a single blog list equals the author of that blog', () => {
+    const result = listHelper.mostLikes(helper.listWithOneBlog)
+    const correct = {
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    }
+    assert.deepStrictEqual(result, correct)
+  })
 
-	test('of multiple blogs equals the one with most likes', () => {
-		const result = listHelper.mostLikes(helper.initialBlogs)
-		const correct = {
-			author: "Edsger W. Dijkstra",
-			likes: 17
-		}
-		assert.deepStrictEqual(result, correct)
-	})
+  test('of multiple blogs equals the one with most likes', () => {
+    const result = listHelper.mostLikes(helper.initialBlogs)
+    const correct = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    }
+    assert.deepStrictEqual(result, correct)
+  })
 })
