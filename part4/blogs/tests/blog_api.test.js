@@ -122,7 +122,7 @@ describe('blog API with existing blogs', () => {
     })
   })
 
-  describe.only('updating a blog', () => {
+  describe('updating a blog', () => {
     test('with valid data works', async () => {
       const blogsAtStart = await helper.blogsInDb()
       const blogToUpdate = blogsAtStart[0]
