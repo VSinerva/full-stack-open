@@ -3,6 +3,44 @@ const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 const helper = require('./test_helper')
 
+const initialBlogs = [
+  {
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+  },
+  {
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+    likes: 5,
+  },
+  {
+    title: 'Canonical string reduction',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
+    likes: 12,
+  },
+  {
+    title: 'First class tests',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
+    likes: 10,
+  },
+  {
+    title: 'TDD harms architecture',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
+    likes: 0,
+  },
+  {
+    title: 'Type wars',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    likes: 2,
+  }
+]
 
 test('dummy returns one', () => {
   const result = listHelper.dummy([])
@@ -22,7 +60,7 @@ describe('total likes', () => {
 
 
   test('of multiple blogs equals the sum of likes', () => {
-    const result = listHelper.totalLikes(helper.initialBlogs)
+    const result = listHelper.totalLikes(initialBlogs)
     assert.strictEqual(result, 36)
   })
 })
@@ -39,8 +77,8 @@ describe('favourite blog', () => {
   })
 
   test('of multiple blogs equals the one with most likes', () => {
-    const result = listHelper.favouriteBlog(helper.initialBlogs)
-    assert.deepStrictEqual(result, helper.initialBlogs[2])
+    const result = listHelper.favouriteBlog(initialBlogs)
+    assert.deepStrictEqual(result, initialBlogs[2])
   })
 })
 
@@ -60,7 +98,7 @@ describe('most blogs', () => {
   })
 
   test('of multiple blogs equals the one with most blogs', () => {
-    const result = listHelper.mostBlogs(helper.initialBlogs)
+    const result = listHelper.mostBlogs(initialBlogs)
     const correct = {
       author: 'Robert C. Martin',
       blogs: 3
@@ -85,7 +123,7 @@ describe('most likes', () => {
   })
 
   test('of multiple blogs equals the one with most likes', () => {
-    const result = listHelper.mostLikes(helper.initialBlogs)
+    const result = listHelper.mostLikes(initialBlogs)
     const correct = {
       author: 'Edsger W. Dijkstra',
       likes: 17

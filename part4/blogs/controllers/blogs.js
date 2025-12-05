@@ -47,12 +47,7 @@ blogsRouter.put('/:id', async (request, response) => {
     return response.status(404).end()
   }
 
-  const { title, author, url, likes } = request.body
-
-  blog.title = title
-  blog.author = author
-  blog.url = url
-  blog.likes = likes
+  blog.likes = request.body.likes
 
   const updatedBlog = await blog.save()
   response.json(updatedBlog)
