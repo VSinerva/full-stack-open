@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const config = require('../utils/config')
 const loginRouter = require('express').Router()
 const User = require('../models/user')
-const config = require('../utils/config')
 
 loginRouter.post('/', async (request, response) => {
   const { username, password } = request.body
@@ -25,7 +25,7 @@ loginRouter.post('/', async (request, response) => {
     id: user._id,
   }
 
-  const token = jwt.sign(userForToken, config.SECRET)
+  const token = jwt.sign(userForToken, config.SECRET, { expiresIn: 60*60 })
 
   response
     .status(200)
